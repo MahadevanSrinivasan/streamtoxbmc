@@ -6,29 +6,32 @@
 // wants to show the page action.
 var videoLink;
 var pageurl;
+var title;
 function onRequest(request, sender, sendResponse) {
   // Show the page action for the tab that the sender (content script)
   // was on.
   var cbs = /cbs/;
-  var base = /base="(.+?)"\/>/
-  var video = /<video src="(.+?)" /
-  var mp4 = /\.mp4/
+  var youtube = /youtube/;
+  var base = /base="(.+?)"\/>/;
+  var video = /<video src="(.+?)" /;
+  var mp4 = /\.mp4/;
   var swfUrl = 'http://canstatic.cbs.com/chrome/canplayer.swf';
   chrome.pageAction.show(sender.tab.id);
   videoLink = request.msg[1];
-  console.log(videoLink);
+  //console.log(videoLink);
   pageurl = request.url;
-  console.log(pageurl);
+  title = request.title;
+  //console.log(pageurl);
   if(cbs.test(pageurl))
   {
     var actualurl = "http://link.theplatform.com/s/dJ5BDC/"+videoLink+"?format=SMIL&Tracking=true&mbr=true";
-    var res = actualurl;//encodeURIComponent(actualurl); 
+    var res = actualurl;//encodeURIComponent(actualurl);
     console.log("Success");
       $.ajax({
         type: "GET",
         url: res,
         success: function(xml) {
-           console.log("Success response");
+           // console.log("Success response");
            var rtmpbase = base.exec(xml)[1];
            var playpath = video.exec(xml)[1];
            if(mp4.test(playpath))
@@ -36,18 +39,20 @@ function onRequest(request, sender, sendResponse) {
             playpath = 'mp4:'+playpath;
            }
            videoLink = rtmpbase+' playpath='+playpath+" swfurl="+swfUrl+" swfvfy=true";
-           console.log(rtmpbase);
-           console.log(playpath);
-           console.log(videoLink);
         },
            error: function (xml) {
-                alert(xml.status + ' ' + xml.statusText);
+                //alert(xml.status + ' ' + xml.statusText);
                 }
       });
   }
-  // Return nothing to let the connection be cleaned up.
-  sendResponse({});
-};
+  else if(youtube.test(pageurl))
+  {
+    regex=/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    videoLink = regex.exec(pageurl)[7];
+    videoLink = "plugin://plugin.video.youtube/?action=play_video&videoid=" + videoLink;
+    //console.log(videoLink);
+  }
+}
 
 // Listen for the content script to send a message to the background page.
 chrome.extension.onRequest.addListener(onRequest);
@@ -59,10 +64,15 @@ chrome.pageAction.onClicked.addListener(function() {
     alert('XBMC IP address not configured, Do it from the options page');
     return;
   }
+  var address;
   if(!port)
-    var address = 'http://' + ip +'/jsonrpc';
+  {
+    address = 'http://' + ip +'/jsonrpc';
+  }
   else
-    var address = 'http://' + ip + ':' + port +'/jsonrpc';
+  {
+    address = 'http://' + ip + ':' + port +'/jsonrpc';
+  }
   console.log(address);
   var data = {};
   data.jsonrpc = "2.0";

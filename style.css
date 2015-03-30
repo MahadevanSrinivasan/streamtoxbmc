@@ -1,0 +1,59 @@
+html, body {
+    background-color: #EEEEE6;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 30px;
+}
+
+body { padding-top: 100px; }
+
+h1 {
+font-family: sans-serif;
+font-weight: bold;
+font-size: 30px;
+line-height: 1.1;
+color: #565a5c;
+-webkit-font-smoothing: antialiased;
+}
+
+.account-wall
+{
+margin-top: 20px;
+padding: 40px 0px 20px 0px;
+background-color: #f7f7f7;
+-moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+-webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+border-radius: 10px;
+}
+
+
+.form-signin .form-control
+{
+position: relative;
+font-size: 16px;
+height: auto;
+padding: 10px;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+
+
+.form-signin
+{
+max-width: 600px;
+padding: 15px;
+margin: 0 auto;
+}
+
+/* REQUIRED */
+.page-alerts {
+    margin-bottom: 20px;
+}
+
+.page-alerts .page-alert {
+    border-radius: 0;
+    margin-bottom: 0;
+}

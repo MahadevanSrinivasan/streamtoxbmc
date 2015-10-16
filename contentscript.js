@@ -16,6 +16,7 @@ var cbs = /cbs/;
 var youtube = /youtube/;
 var vidzi = /vidzi/;
 var gorillavid = /gorillavid/;
+var vodmine = /vodmine/;
 
 if(allmyv.test(url))
     regex = /"file" : "(.+?)"/;
@@ -29,6 +30,8 @@ else if(cbs.test(url))
     regex = /video.settings.pid = '(.*?)';/;
 else if(youtube.test(url))
     regex = /youtube/;
+else if(vodmine.test(url))
+    regex = /<source src="(.+?\.mp4)"/;
 
 // Test the text of the body element against our regular expression.
 if (regex.test(document.body.innerHTML)) {

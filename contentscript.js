@@ -16,6 +16,8 @@ var cbs = /cbs/;
 var youtube = /youtube/;
 var vidzi = /vidzi/;
 var gorillavid = /gorillavid/;
+var ishared = /ishared/;
+var thevideo = /thevideo/;
 var vodmine = /vodmine/;
 
 if(allmyv.test(url))
@@ -32,6 +34,16 @@ else if(youtube.test(url))
     regex = /youtube/;
 else if(vodmine.test(url))
     regex = /<source src="(.+?\.mp4)"/;
+else if(ishared.test(url))
+    regex = /path:"(.+?)"/;
+else if(thevideo.test(url)) {
+    regex = /sources: (\[.+?\])/;
+    var links = regex.exec(document.body.innerHTML);
+    regexl = /file: '(.+?)'/g;
+    while((myArray = regexl.exec(links)) !== null) { 
+      msg = myArray;
+    }
+}
 
 // Test the text of the body element against our regular expression.
 if (regex.test(document.body.innerHTML)) {
